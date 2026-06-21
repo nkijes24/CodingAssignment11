@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dungeon Loot Tracker Phase 2 application for tracking loot, party size, total value, and split loot results.">
+    <meta name="author" content="Jesse Nkinsi">
+    <title>Dungeon Loot Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <main>
+        <header class="site-header">
+            <h1>Dungeon Loot Tracker</h1>
+            <p class="intro-text">Track loot, quantities, party size, and the currency split for your party.</p>
+        </header>
+
+        <div class="app-grid">
+            <section class="panel party-panel" aria-labelledby="partyHeading">
+                <h2 id="partyHeading">Party Setup</h2>
+
+                <div class="field-group">
+                    <label for="partySize">Party Size:</label>
+                    <input type="number" id="partySize" min="1" step="1" required value="1">
+                </div>
+            </section>
+
+            <section class="panel add-panel" aria-labelledby="addLootHeading">
+                <h2 id="addLootHeading">Add Loot</h2>
+
+                <div class="form-area">
+                    <div class="field-group">
+                        <label for="lootName">Loot Name:</label>
+                        <input type="text" id="lootName" placeholder="Example: Flaming Sword" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="lootValue">Loot Value:</label>
+                        <input type="number" id="lootValue" min="0" step="0.01" placeholder="Example: 75" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" id="quantity" min="1" step="1" placeholder="Example: 2" required>
+                    </div>
+
+                    <button id="addLootButton" type="button">Add Loot</button>
+                </div>
+
+                <p id="message" class="message" aria-live="polite"></p>
+            </section>
+
+            <section class="panel loot-panel" aria-labelledby="lootListHeading">
+                <h2 id="lootListHeading">Loot List</h2>
+
+                <div id="noLootMessage">No loot added.</div>
+
+                <div class="loot-table" aria-label="Loot item table">
+                    <div class="loot-header">Name</div>
+                    <div class="loot-header">Value</div>
+                    <div class="loot-header">Quantity</div>
+                    <div class="loot-header">Remove</div>
+
+                    <div id="lootRows"></div>
+                </div>
+
+                <div id="totalsPanel" class="total-row hidden">
+                    Total Loot Value: <span id="totalLoot">0.00</span> gold
+                </div>
+            </section>
+
+            <section class="panel split-panel" aria-labelledby="splitHeading">
+                <h2 id="splitHeading">Split Loot</h2>
+                <p>Loot is divided by total currency value only. Individual items are not divided or redistributed.</p>
+
+                <button id="splitLootButton" type="button" disabled>Split Loot</button>
+
+                <div id="resultsSection" class="results-section hidden" aria-live="polite">
+                    <p>Loot Per Party Member: <span id="lootPerMember">0.00</span> gold</p>
+                </div>
+            </section>
+
+            <section class="panel reflection-panel" aria-labelledby="reflectionHeading">
+                <h2 id="reflectionHeading">Phase 2 Reflection</h2>
+                <p>The loot array serves as the single source of truth because every loot item is stored there, and the screen is rebuilt from that array whenever the state changes.</p>
+                <p>I added quantity to the data model so each object can represent the item name, its value, and how many of that item the party collected. Total loot is calculated as value multiplied by quantity.</p>
+                <p>The updateUI() function performs the total calculation, split calculation, loot list rendering, button enabling, and section visibility control in one place.</p>
+                <p>State controls the interface because empty loot or an invalid party size hides results and disables the Split Loot button. Valid state makes the correct sections visible and usable.</p>
+                <p>Conditional logic prevents invalid state by checking party size, loot name, loot value, and quantity before data is added to the array.</p>
+            </section>
+
+            <section class="panel sketch-panel" aria-labelledby="sketchHeading">
+                <h2 id="sketchHeading">Logic Flow Sketch</h2>
+                <img src="images/logic-flow.png" alt="Logic flow sketch showing user action, state change, updateUI execution, and interface update.">
+            </section>
+        </div>
+    </main>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
